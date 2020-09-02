@@ -1,0 +1,134 @@
+CRM: customer relational manager
+-------------------------------------
+
+CRM - Project name
+Account - App name
+
+templates
+	accounts
+		dashboard.html
+		products.html
+		customers.html
+
+base-templates: main.html
+
+{% block content %}
+{% endblock %}
+
+{% extends 'accounts/main.html '%}
+
+------------------------------------
+Static files:
+
+1:Create folder name as static
+	then, create subfolder,
+		then, create .css file
+
+2:In setting.py
+
+	STATICFILES_DIR =[
+		os.path.join(BASE_DIR, 'static')
+	]
+
+3: In main.html
+	{% load static %}
+
+
+4: In main.html
+	Declared the CSS file <link>
+		<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+
+----------------------------
+Models:
+Create your models first:
+	class Mode(models.Model):
+		name = models.CharField(max_length = 200)
+		date = models.DateTimeField(auto_now_add, null=True)
+		
+	def __str__(self):
+		return self.name
+
+
+Once you created the models then need to register models in admin.py
+	admin.site.register(Model)
+
+After, this you need to run the migrations
+	python manage.py makemigrations
+	python manage.py migrate
+
+
+---------------------------------
+
+Relationship
+1 One to many
+2 Many to many
+
+1: OM
+	Customer to different products
+2: MM
+	Different customers to different products
+\
+customer = models.ForeignKey(Customer)
+
+tags =models.ManytoManyField(Tag)
+
+
+-----------------------------
+Interact models values with html templates(data to templates):
+
+You have models with attributes then you have to call those atttriues in views.py file.
+eg.
+
+def products(request):
+   products = Products.objects.all() $ it will collect all the attributes
+   return render(request, 'accounts/products.html', {'products': products})
+
+if you want to use filter then,
+products = products.count()
+total = products.filter(status = 'Delievered').count()
+
+then use those products.name or products.price in your html tempates
+eg.
+
+{% for customer in customers %}
+<tr>
+<td>{{ customer.name }}</td>
+<td>{{ customer.phone }}</td>
+</tr>
+{% endfor %}
+
+--------------------------------------------------
+
+User authonication:
+
+=======================================
+Image upload:
+
+
+
+========================================
+Deployment to Heroku:
+
+
+for i in range(1, 101):
+	if i % 3 == 0  and i % 5 == 0:
+	print("FizzBuzz")
+	elif i % 5 == 0:
+	print("Buzz")
+	elif % 3 == 0:
+	print("Fizz")
+	else:
+	print(i)
+
+for i in range(1, 101):
+	text = ""
+	if i % 3 == 0  and i % 5 == 0:
+		text+="FizzBuzz"
+	elif i % 5 == 0:
+		text+="Buzz"
+	elif % 3 == 0:
+		text+="Fizz"
+	else:
+		text+=str(i)
+	print(text)
+
